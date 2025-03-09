@@ -21,6 +21,7 @@ import {
   createWebhook,
   deleteWebhook,
 } from "./helper.js";
+import { summarizeText } from "./generative.js";
 
 const config = {
   token: process.env.SLACK_BOT_TOKEN,
@@ -114,7 +115,7 @@ const handleReactionAdded = async ({ event, client }) => {
             true,
           );
         } else if (!subscription) {
-          const taskTitle = parseSlackMessage(parentMessage);
+          const taskTitle = await summarizeText(parentMessage.text);
           const uuid = nanoid(10);
           const slackMessageUrl = `https://slack.com/archives/${event.item.channel}/p${parentMessage.ts.replace(".", "")}`;
           const taskDescription = `Slack Message: ${slackMessageUrl} \n\n${parentMessage.text} ${getFileUrl(parentMessage)}`;
