@@ -5,7 +5,7 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 export const summarizeText = async (longText) => {
   const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
 
-  const prompt = `Generate a concise and precise title based on the following text.
+  const prompt = `Generate a concise and precise title from the given text. The title should not contain special characters and should be in sentence case, with only the first letter capitalized."
       ${longText}
   `;
 
