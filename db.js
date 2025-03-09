@@ -48,8 +48,18 @@ export const updateSubscription = async (subscription_id, subscribed) => {
     `UPDATE subscriptions SET subscribed = ? WHERE subscription_id = ?;`,
     [subscribed, subscription_id],
   );
-  const rows = await db.all(`SELECT * FROM subscriptions;`);
-  return rows;
+};
+
+export const updateSubscriptionWebhook = async (
+  subscription_id,
+  webhook_id,
+  subscribed,
+) => {
+  const db = await initDB();
+  await db.run(
+    `UPDATE subscriptions SET subscribed = ?, webhook_id = ? WHERE subscription_id = ?;`,
+    [subscribed, webhook_id, subscription_id],
+  );
 };
 
 export const deleteSubscription = async (subscription_id) => {

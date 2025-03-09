@@ -9,6 +9,7 @@ import {
   updateSubscription,
   storeWebhookId,
   getSubscriptionByClickupId,
+  updateSubscriptionWebhook,
 } from "./db.js";
 import { nanoid } from "nanoid";
 import {
@@ -26,7 +27,7 @@ const config = {
   signingSecret: process.env.SLACK_SIGNING_SECRET,
   socketMode: true,
   appToken: process.env.SLACK_APP_TOKEN,
-  subscribeEmoji: "white_check_mark",
+  subscribeEmoji: "eyes",
   unsubscribeEmoji: "x",
   port: process.env.PORT || 3000,
   exporessPort: process.env.EXPRESS_PORT || 3001,
@@ -106,8 +107,12 @@ const handleReactionAdded = async ({ event, client }) => {
         );
 
         if (subscription) {
-          // update subscription -> subscribed: true;
-          await updateSubscription(parentMessage.ts, true);
+          const webhookResponse = await createWebhook(subscription.clickup_id);
+          await updateSubscriptionWebhook(
+            parentMessage.ts,
+            webhookResponse.id,
+            true,
+          );
         } else if (!subscription) {
           const taskTitle = parseSlackMessage(parentMessage);
           const uuid = nanoid(10);
