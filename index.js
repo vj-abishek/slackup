@@ -129,11 +129,11 @@ const handleReactionAdded = async ({ event, client }) => {
           );
           console.log("🚀 Created ClickUp task:", response.url);
 
-          await client.chat.postMessage({
-            channel: event.item.channel,
-            thread_ts: parentMessage.ts,
-            text: `_Created ClickUp task: ${response.url} _`,
-          });
+          // await client.chat.postMessage({
+          //   channel: event.item.channel,
+          //   thread_ts: parentMessage.ts,
+          //   text: `_Created ClickUp task: ${response.url} _`,
+          // });
 
           const payload = {
             subscription_id: parentMessage.ts,
@@ -216,6 +216,8 @@ const handleWebhook = async (req, res) => {
           finalText += item.text;
         }
       });
+      
+      return
 
       if (hasImage) {
         await app.client.chat.postMessage({
