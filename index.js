@@ -81,10 +81,10 @@ const handleMessage = async ({ message, client }) => {
         if (subscription) {
           const userInfo = await client.users.info({ user: message.user });
           const username = userInfo.user.real_name || userInfo.user.name;
-          createComment(
-            subscription.clickup_id,
-            `_~${username}_ \n${message.text}`,
-          );
+          // createComment(
+          //   subscription.clickup_id,
+          //   `_~${username}_ \n${message.text}`,
+          // );
         }
       }
     } catch (error) {
@@ -141,7 +141,7 @@ const handleReactionAdded = async ({ event, client }) => {
             channel: event.item.channel,
             uuid,
           };
-          const webhookResponse = await createWebhook(response.id);
+          // const webhookResponse = await createWebhook(response.id);
           await handleSubscription(payload, "create");
           await storeWebhookId(payload.subscription_id, webhookResponse.id);
         }
@@ -164,12 +164,12 @@ const handleReactionRemoved = async ({ event, client }) => {
     if (parentMessage) {
       await updateSubscription(parentMessage.ts, false);
       const response = await getSubscription(parentMessage.ts);
-      await deleteWebhook(response.webhook_id);
-      await client.chat.postMessage({
-        channel: event.item.channel,
-        thread_ts: parentMessage.ts,
-        text: `_Unsubscribed ClickUp task subscription_`,
-      });
+      // await deleteWebhook(response.webhook_id);
+      // await client.chat.postMessage({
+      //   channel: event.item.channel,
+      //   thread_ts: parentMessage.ts,
+      //   text: `_Unsubscribed ClickUp task subscription_`,
+      // });
     }
   } catch (error) {
     console.error(error);
