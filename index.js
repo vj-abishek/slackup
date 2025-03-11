@@ -186,11 +186,11 @@ const handleWebhook = async (req, res) => {
     const subscription = await getSubscriptionByClickupId(webhookData.task_id);
     const taskStatus = webhookData.history_items[0];
     if (subscription) {
-      await app.client.chat.postMessage({
-        channel: subscription.channel,
-        thread_ts: subscription.subscription_id,
-        text: `_Status changed from *${taskStatus.before.status}* to *${taskStatus.after.status}*_`,
-      });
+      // await app.client.chat.postMessage({
+      //   channel: subscription.channel,
+      //   thread_ts: subscription.subscription_id,
+      //   text: `_Status changed from *${taskStatus.before.status}* to *${taskStatus.after.status}*_`,
+      // });
     }
   } else if (
     webhookData.event === "taskCommentPosted" &&
