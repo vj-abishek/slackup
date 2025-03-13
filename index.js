@@ -143,7 +143,7 @@ const handleReactionAdded = async ({ event, client }) => {
           };
           // const webhookResponse = await createWebhook(response.id);
           await handleSubscription(payload, "create");
-          await storeWebhookId(payload.subscription_id, webhookResponse.id);
+          // await storeWebhookId(payload.subscription_id, webhookResponse.id);
         }
       }
     } catch (error) {
