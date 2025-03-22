@@ -216,8 +216,8 @@ const handleWebhook = async (req, res) => {
           finalText += item.text;
         }
       });
-      
-      return
+
+      return;
 
       if (hasImage) {
         await app.client.chat.postMessage({
@@ -252,6 +252,11 @@ const handleWebhook = async (req, res) => {
   res.status(200).send("OK");
 };
 
+app.receiver.client.on("disconnect", () => {
+  console.error("Slack WebSocket disconnected! Restarting...");
+  process.exit(1);
+});
+
 app.event("message", handleMessage);
 app.event("reaction_added", handleReactionAdded);
 // app.event("reaction_removed", handleReactionRemoved);
@@ -262,6 +267,11 @@ expressApp.listen(config.exporessPort, () => {
 });
 
 (async () => {
-  await app.start(config.port);
-  app.logger.info("⚡️ Bolt app is running!");
+  try {
+    await app.start(config.port);
+    app.logger.info("⚡️ Bolt app is running!");
+  } catch (error) {
+    console.error("Failed to start Slack bot:", error);
+    process.exit(1);
+  }
 })();
